@@ -16,5 +16,11 @@ router.get('/:id',(req,res)=>{
     res.json(note);
 });
 router.post('/',(req,res)=>{
-    res.json()
-})
+    const {title, content}=req.body;
+    if(!title || !content){
+        return res.status(400).json({error: 'Title and content are required'});
+    }
+    const newNote = {id:nextId++, title, contant};
+    notes.push(newNote);
+    res.status[200].json(newNote);
+});
