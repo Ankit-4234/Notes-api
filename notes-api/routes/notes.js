@@ -2,7 +2,7 @@ import express from 'express';
 const router = express.Router();
 
 let notes = [
-    { id :1 , title : 'first note' , content='this is my first note'}
+    { id :1 , title : 'first note' , content:'this is my first note'}
 ];
 let nextId = 2;
 router.get('/', (req,res) =>{
@@ -20,9 +20,9 @@ router.post('/',(req,res)=>{
     if(!title || !content){
         return res.status(400).json({error: 'Title and content are required'});
     }
-    const newNote = {id:nextId++, title, contant};
+    const newNote = {id:nextId++, title, content};
     notes.push(newNote);
-    res.status[200].json(newNote);
+    res.status(200).json(newNote);
 });
 router.put('/:id',(req,res)=>{
     const note = notes.find(n => n.id === Number(req.params.id));
