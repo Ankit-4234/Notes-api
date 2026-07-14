@@ -1,6 +1,5 @@
 import express from 'express';
-import note from '../modules/note.js';
-import note from '../modules/note.js';
+import note from '../models/note.js';
 const router = express.Router();
 
 router.get('/',async(req,res)=>{
