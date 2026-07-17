@@ -1,5 +1,5 @@
 import express from 'express';
-import note from '../models/note.js';
+import Note from '../models/note.js';
 const router = express.Router();
 
 router.get('/',async(req,res)=>{
@@ -20,21 +20,21 @@ router.post('/',async(req,res)=>{
     res.status(201).json(newNote);
 });
 router.put('/:id',async(req,res)=>{
-    const note= await Note.findById(req.pararms.id);
+    const note= await Note.findById(req.params.id);
     if(!note){
         return res.status(404).json({error:'note not found'});
     }
     const {title, content} = req.body;
     if (title) note.title=title;
     if(content) note.content=content;
+    await note.save();
     res.json(note);
 });
 router.delete('/:id',async(req,res)=>{
-    const note = await note.findByIdAndDelete(req.params.id);
+    const note = await Note.findByIdAndDelete(req.params.id);
     if(!note){
         return res.status(404).json({error: 'note not found'});
     }
-    notes.splice(index,1);
     res.status(204).send();
 })
 export default router;

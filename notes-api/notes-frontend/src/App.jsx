@@ -64,8 +64,8 @@ return (
                     <h3>{note.title}</h3>
                     <p>{note.content}</p>
                     <div className="note-actions">
-                        <button onClick={()=> handlEdit(note)}>Edit</button>
-                        <button onClick={()=> handlDelete(note._id)}>Delete</button>
+                        <button onClick={()=> handleEdit(note)}>Edit</button>
+                        <button onClick={()=> handleDelete(note._id)}>Delete</button>
                         </div>
                         </div>
             ))}
