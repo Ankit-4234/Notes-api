@@ -4,10 +4,10 @@ import './App.css';
 const API_URL='http://localhost:3000/api/notes';
 
 function App(){
-    const [note,setNotes]=useState([]);
+    const [notes,setNotes]=useState([]);
     const [title,setTitle]=useState('');
-    const [content,setContent]=usestate('');
-    const [editingId,setEditingId]=usestate(null);
+    const [content,setContent]=useState('');
+    const [editingId,setEditingId]=useState(null);
 
 useEffect(()=>{
 fetchNotes();
@@ -21,17 +21,17 @@ const fetchNotes = async ()=>{
 const handleSubmit = async (e)=>{
     e.preventDefault();
     if (!title || !content) return;
-    if(editingID){
-        await fetch(`${API_URL}/${editingID}`,{
+    if(editingId){
+        await fetch(`${API_URL}/${editingId }`,{
             method :'PUT',
             headers: {'Content-type':'application/json'},
             body:JSON.stringify({title,content}),
         });
-        setEditing(null);
+        setEditingId(null);
     }else{
         await fetch(API_URL,{
             method: 'POST',
-            headers: {'Content[type':'application/json'},
+            headers: {'Content-type':'application/json'},
             body:JSON.stringify({title,content}),
         });
     }
