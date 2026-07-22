@@ -15,9 +15,26 @@
   padding: 0.5rem;
   font-size: 1rem;
 }
+.form-action {
+  display: flex;
+  gap: 0.5rem;
+}
 .note-form button {
   padding: 0rem;
   cursor: pointer;
+}
+.cancel-button {
+  background: #eee;
+}
+.error-text {
+  color: #c0392b;
+  font-size: 0.9rem;
+  margin: 0;
+}
+.status-text {
+  color: #666;
+  text-align: center;
+  margin-top: 2rem;
 }
 .notes-list {
   display: flex;
