@@ -2,13 +2,14 @@ import express from "express";
 import Note from "../models/note.js";
 import auth from "../middleware/auth.js";
 const router = express.Router();
+router.use(auth);
 
 router.get("/", async (req, res) => {
   const notes = await Note.find({ user: req.userId }).sort({ createdAt: -1 });
   res.json(notes);
 });
 router.get("/:id", async (req, res) => {
-  const note = await Note.findOne({ _id: req_params.id, user: req.userId });
+  const note = await Note.findOne({ _id: req.params.id, user: req.userId });
   if (!note) return res.status(404).json({ error: "note not found" });
   res.json(note);
 });

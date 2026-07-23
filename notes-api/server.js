@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import notesRouter from "./routes/notes.js";
 import cors from "cors";
+import authRouter from "./routes/auth.js";
 
 dotenv.config();
 
@@ -12,6 +13,7 @@ const port = 3000;
 app.use(cors());
 app.use(express.json());
 app.use("/api/notes", notesRouter);
+app.use("/api/auth", authRouter);
 
 app.get("/", (req, res) => {
   res.send("Notes api is running");
@@ -22,7 +24,7 @@ mongoose
   .then(() => {
     console.log("connected to mongodb");
     app.listen(port, () => {
-      console.log(`serer running on http://localhost:${port}`);
+      console.log(`server running on http://localhost:${port}`);
     });
   })
   .catch((err) => {

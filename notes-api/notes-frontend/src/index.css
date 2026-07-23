@@ -15,15 +15,15 @@
   padding: 0.5rem;
   font-size: 1rem;
 }
-.form-action {
+.form-actions {
   display: flex;
   gap: 0.5rem;
 }
 .note-form button {
-  padding: 0rem;
+  padding: 0.5rem;
   cursor: pointer;
 }
-.cancel-button {
+.cancel-btn {
   background: #eee;
 }
 .error-text {

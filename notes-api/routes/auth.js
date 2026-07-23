@@ -1,14 +1,12 @@
 import express from "express";
-import bcrypt from "bcrypt";
-import jwt from "jwt";
-import user from "../models/User.js";
+import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import User from "../models/User.js";
 
 const router = express.Router();
 
 router.post("/signup", async (req, res) => {
-  const { username, password } = req,
-    body;
+  const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: "Username and Password required" });
   }
@@ -16,7 +14,7 @@ router.post("/signup", async (req, res) => {
   if (existing) {
     return res.status(400).json({ error: "Username already taken" });
   }
-  const hashedPassword = await bcrypt.hash(passowrd, 10);
+  const hashedPassword = await bcrypt.hash(password, 10);
   const user = await User.create({ username, password: hashedPassword });
   const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, {
     expiresIn: "7d",
@@ -24,8 +22,7 @@ router.post("/signup", async (req, res) => {
   res.status(201).json({ token, username: user.username });
 });
 router.post("/login", async (req, res) => {
-  const { username, password } = req,
-    body;
+  const { username, password } = req.body;
   if (!username || !password) {
     return res.status(400).json({ error: "Username and Password required" });
   }
@@ -33,7 +30,7 @@ router.post("/login", async (req, res) => {
   if (!user) {
     return res.status(400).json({ error: "Invalid username or password" });
   }
-  const match = await bcrypt.compare(passowrd, user.password);
+  const match = await bcrypt.compare(password, user.password);
   if (!match) {
     return res.status(400).json({ error: "Invalid username or password" });
   }
