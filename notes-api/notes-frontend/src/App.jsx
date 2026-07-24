@@ -4,6 +4,10 @@ import "./App.css";
 const BASE_URL = "https://notes-api-qjni.onrender.com/api";
 
 function App() {
+  const [token, setToken] = useState(localStorage.getItem("token") || "");
+  const [username, setUsername] = useState(
+    localStorage.getItem("username") || "",
+  );
   const [notes, setNotes] = useState([]);
   const [title, setTitle] = useState("");
   const [content, setContent] = useState("");
@@ -11,9 +15,9 @@ function App() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
 
-  const [authMode, setAuthMode] = useState([]);
-  const [title, setTitle] = useState("");
-  const [content, setContent] = useState("");
+  const [authMode, setAuthMode] = useState("login");
+  const [authUsername, setAuthUsername] = useState("");
+  const [authPassword, setAuthPassword] = useState("");
   const [authError, setAuthError] = useState("");
 
   useEffect(() => {
@@ -42,10 +46,10 @@ function App() {
     e.preventDefault();
     setAuthError("");
     if (!authUsername.trim() || !authPassword.trim()) {
-      setError("Username and password cannot be empty");
+      setAuthError("Username and password cannot be empty");
       return;
     }
-    const endPoint = authMode === "login" ? "login" : "signup";
+    const endpoint = authMode === "login" ? "login" : "signup";
     const res = await fetch(`${BASE_URL}/auth/${endpoint}`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -70,9 +74,8 @@ function App() {
     setUsername("");
     setNotes([]);
   };
-  const handleAuthSubmit = async (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    setAuthError("");
     if (!title.trim() || !content.trim()) {
       setError("Title and Content cannot be empty");
       return;
@@ -84,7 +87,7 @@ function App() {
     };
     if (editingId) {
       await fetch(`${BASE_URL}/notes/${editingId}`, {
-        method: "POST",
+        method: "PUT",
         headers,
         body: JSON.stringify({ title, content }),
       });
@@ -128,7 +131,7 @@ function App() {
             type="text"
             placeholder="username"
             value={authUsername}
-            onChange={(e) => setAuthPassword(e.target.value)}
+            onChange={(e) => setAuthUsername(e.target.value)}
           />
           <input
             type="password"
@@ -139,7 +142,7 @@ function App() {
           {authError && <p className="error-text">{authError}</p>}
           <button type="submit">
             {" "}
-            {authMode === "login" ? "Log In" : "Sign Up"}
+            {authMode === "login" ? "Log In" : "signup"}
           </button>
         </form>
         <p className="status-text">
@@ -149,7 +152,7 @@ function App() {
           <button
             className="link-btn"
             onClick={() => {
-              setAuthMode(authMode === "login" ? "Sign Up" : "login");
+              setAuthMode(authMode === "login" ? "signup" : "login");
               setAuthError("");
             }}
           >
@@ -166,7 +169,7 @@ function App() {
         <h1>my Notes</h1>
         <div className="user-info">
           <span>Hi, {username}</span>
-          <button onClick="{handleLogout}" className="cancel-btn">
+          <button onClick={handleLogout} className="cancel-btn">
             logout
           </button>
         </div>
